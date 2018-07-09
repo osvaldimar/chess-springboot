@@ -44,11 +44,11 @@ public class ChessRestController {
 	private ChessServiceRemote service = new ChessServiceImpl();
 	
 	@PostMapping(value="/startChessSingle", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> startChessSinglePlayer(@RequestBody(required=true) ChessModel model) 
+	public ResponseEntity<ContentResource> startChessSinglePlayer(@RequestBody(required=true) ChessModel model) 
 			throws ChessParametersException, InterruptedException{
 		ResponseClient response = chessPool.joinSinglePlayerOnlineChessPool();
 		ContentResource modelResourceHateoas = new ContentResource(response);
-		return new ResponseEntity<>(ContentResource.buildJson(modelResourceHateoas), HttpStatus.OK);
+		return new ResponseEntity<>(modelResourceHateoas, HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/startChessMulti", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -66,12 +66,12 @@ public class ChessRestController {
 	}
 	
 	@GetMapping(value="/selectMove/{id}/{player}/{position}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String>  selectMove(@PathVariable("id") String id, @PathVariable("player") String player, 
+	public ResponseEntity<ContentResource> selectMove(@PathVariable("id") String id, @PathVariable("player") String player, 
 			@PathVariable("position") String position) throws ChessParametersException, InterruptedException{		
 		service.play(chessPool.findGameAppInChessPool(id, player));
 		ResponseClient res = service.selectAndMovePiece(position, player);
 		res.inserirKeyClientID(id);
-		return new ResponseEntity<>(ContentResource.buildJson(new ContentResource(res)), HttpStatus.OK);
+		return new ResponseEntity<>(new ContentResource(res), HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/moveDirect/{id}/{player}", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -127,7 +127,6 @@ public class ChessRestController {
 	}
 	
 	@GetMapping(value="/waitTurnLayoutChessboard/{id}/{player}", produces=MediaType.APPLICATION_JSON_VALUE)
-	//@Produces(value = MediaType.APPLICATION_JSON)
 	public ResponseEntity<String> waitTurnLayoutChessboard(@PathVariable("id") String id, @PathVariable("player") String player) 
 			throws ChessParametersException, InterruptedException{
 		ResponseClient resp;

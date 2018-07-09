@@ -3,8 +3,6 @@ package com.chess.app.rest.model;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-import java.util.Arrays;
-
 import org.springframework.hateoas.ResourceSupport;
 
 import com.chess.app.exception.ChessParametersException;
@@ -38,7 +36,7 @@ public class ContentResource extends ResourceSupport{
 					addLinkMovePiece(getContent().getPositionsAvailable(), "move to");
 				}
 				if(getContent().getPositionsToTake().length >= 1) {
-					addLinkMovePiece(getContent().getPositionsAvailable(), "take");
+					addLinkMovePiece(getContent().getPositionsToTake(), "take");
 				}
 			}
 		}
