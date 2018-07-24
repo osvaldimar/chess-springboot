@@ -33,7 +33,7 @@ public class ContentResource extends ResourceSupport{
 						.withRel("select"));
 			}else {
 				if(getContent().getPositionsAvailable().length >= 1) {
-					addLinkMovePiece(getContent().getPositionsAvailable(), "move to");
+					addLinkMovePiece(getContent().getPositionsAvailable(), "move_to");
 				}
 				if(getContent().getPositionsToTake().length >= 1) {
 					addLinkMovePiece(getContent().getPositionsToTake(), "take");
