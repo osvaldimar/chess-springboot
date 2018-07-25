@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
  *
  */
 @SpringBootApplication
-@ComponentScan({"com.chess.app.rest"})
+@ComponentScan({"com.chess.app.rest", "com.chess.app"})
 public class ChessApplication {
 
 	/**

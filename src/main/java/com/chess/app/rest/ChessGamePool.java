@@ -48,6 +48,15 @@ public class ChessGamePool {
 		}
 		return null;
 	}
+	
+	public String findUuidOpponent(String idAny){
+		final KeyUUIDChess key = new KeyUUIDChess(UUID.fromString(idAny), UUID.fromString(idAny));
+		final Optional<KeyUUIDChess> findFirst = this.map.keySet().stream().filter(k -> k.equals(key))
+						.findFirst();
+		if (findFirst.isPresent())				
+			return findFirst.get().getUuidOpponent(UUID.fromString(idAny)).toString();
+		return null;
+	}
 
 	public ResponseClient joinSinglePlayerOnlineChessPool() {
 		final UUID singleUuid = UUID.randomUUID();

@@ -15,8 +15,8 @@ public class ChessWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	 */
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.enableSimpleBroker("/topic");
-		registry.setApplicationDestinationPrefixes("/appChessEndpoint");
+		registry.enableSimpleBroker("/chessQueue");
+		registry.setApplicationDestinationPrefixes("/appServerChess");
 		WebSocketMessageBrokerConfigurer.super.configureMessageBroker(registry);
 	}
 	
@@ -25,7 +25,7 @@ public class ChessWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	 */
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/gs-guide-websocket");
+		registry.addEndpoint("/api/websocket").withSockJS();
 		WebSocketMessageBrokerConfigurer.super.registerStompEndpoints(registry);
 	}
 	

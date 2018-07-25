@@ -21,6 +21,13 @@ public class ChessPoolService {
 		return findGameApp;
 	}
 
+	public String findIdOpponent(String idAny) throws ChessParametersException{
+		String idOpponent = chessGamePool.findUuidOpponent(idAny);
+		if(idOpponent == null)
+			throw new ChessParametersException();
+		return idOpponent;
+	}
+	
 	public void setChessGamePool(ChessGamePool chessGamePool) {
 		this.chessGamePool = chessGamePool;
 	}

@@ -3,17 +3,10 @@
  */
 package com.chess.app.rest;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chess.app.exception.ChessParametersException;
 import com.chess.app.rest.model.ChessModel;
 import com.chess.app.rest.model.ContentResource;
-import com.chess.app.rest.model.MessageBody;
 import com.chess.core.client.ChessServiceRemote;
 import com.chess.core.client.ResponseClient;
 import com.chess.core.client.TransformJson;
@@ -45,18 +37,6 @@ public class ChessRestController {
 	private ChessPoolService chessPool;
 	
 	private ChessServiceRemote service = new ChessServiceImpl();
-	
-	/**
-	 * 
-	 */
-	@MessageMapping("/move")
-	@SendTo("/topic/movements")
-	public String onMessageSelectMove(MessageBody messageBody) throws ChessParametersException {
-		service.play(chessPool.findGameAppInChessPool(messageBody.getId(), messageBody.getPlayer()));
-		ResponseClient res = service.selectAndMovePiece(messageBody.getContent(), messageBody.getPlayer());
-		res.inserirKeyClientID(messageBody.getId());
-		return TransformJson.createResponseJson(res);
-	}
 	
 	
 	@PostMapping(value="/startChessSingle", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
